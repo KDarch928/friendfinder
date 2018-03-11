@@ -217,6 +217,19 @@
             return isValid;
         }
 
+        function resetSurvey() {
+            //check each text field
+            $(".form-control").each(function() {
+                //if the text field is null, then isValid is false
+                $(this).val("");
+            });
+            //check each selection option
+            $(".chosen-select").each(function() {
+                //if selection is null, then isValid is false
+                $(this).val("");
+            });
+        }
+
         // If all required fields are filled
         if (validateForm()) {
             // Create an object for the user"s data
@@ -240,13 +253,15 @@
 
             $.post("/api/friends", userData, function(data) {
 
-                console.log(data);
+
                 // Grab the result from the AJAX post so that the best match's name and photo are displayed.
                 $("#match-name").text(data.name);
                 $("#match-img").attr("src", data.photo);
 
                 // Show the modal with the best match
                 $("#results-modal").modal("toggle");
+
+                resetSurvey();
 
             });
         } else {
